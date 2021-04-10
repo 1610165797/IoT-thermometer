@@ -20,6 +20,7 @@ def population_callback(client,userdata, msg):
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
+    count=0
     client = mqtt.Client()
     client.on_message = on_message
     client.on_connect = on_connect
