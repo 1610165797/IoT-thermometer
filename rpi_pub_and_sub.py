@@ -31,6 +31,8 @@ if __name__ == '__main__':
     client.loop_start()
 
     setRGB(0,255,0)
+
+
     while True:
 
         outfile=open('detected.txt','r')
@@ -46,4 +48,4 @@ if __name__ == '__main__':
             setText_norefresh("Temerature High, Entry Denied")
         else:
             setText_norefresh("Welcome")
-            client.publish("hospital/population",temperature)
+            client.publish("hospital/population","One Person Entered")
