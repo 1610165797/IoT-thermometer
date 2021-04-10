@@ -50,7 +50,7 @@ if __name__ == '__main__':
             with lock:
                 temperature = grovepi.ultrasonicRead(port)
                 time.sleep(1)
-            if(temperature>37):
+            if(temperature>5):
                 setText_norefresh("Temerature High, Entry Denied")
             else:
                 setText_norefresh("Welcome")
