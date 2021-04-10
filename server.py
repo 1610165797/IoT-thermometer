@@ -1,6 +1,8 @@
 import paho.mqtt.client as mqtt
 import time
 
+count=0
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server (i.e., broker) with result code "+str(rc))
 
@@ -14,6 +16,7 @@ def on_message(client, userdata, msg):
 
 def population_callback(client,userdata, msg):
     print("population_callback: "+msg.topic+ " "+ str(msg.payload, "utf-8"))
+    count+=1
 
 if __name__ == '__main__':
     #this section is covered in publisher_and_subscriber_example.py
@@ -24,6 +27,8 @@ if __name__ == '__main__':
     client.loop_start()
 
     while True:
+        if(count>10):
+            client.publish("hospital/stop","Maximum occupancy has been reached")
         time.sleep(1)
             
 
