@@ -38,12 +38,12 @@ if __name__ == '__main__':
 
         #if(txt=="detected"):
             outfile.close()
-            open("filename", "w").close()
-            with lock:
-                temperature = grovepi.ultrasonicRead(port)
-                time.sleep(0.5)
-                if(temperature>37):
-                    setText_norefresh("Temerature High, Entry Denied")
-                else:
-                    setText_norefresh("Welcome")
-                    client.publish("hospital/population",temperature)
+        open("filename", "w").close()
+        with lock:
+            temperature = grovepi.ultrasonicRead(port)
+            time.sleep(0.5)
+            if(temperature>37):
+                setText_norefresh("Temerature High, Entry Denied")
+            else:
+                setText_norefresh("Welcome")
+                client.publish("hospital/population",temperature)
