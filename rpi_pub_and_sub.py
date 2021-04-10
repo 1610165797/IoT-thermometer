@@ -7,6 +7,8 @@ import threading
 
 sensor=0
 
+port=4
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server with result code "+str(rc))
 
