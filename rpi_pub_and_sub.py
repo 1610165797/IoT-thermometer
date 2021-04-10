@@ -38,7 +38,7 @@ if __name__ == '__main__':
             outfile.close()
             open("filename", "w").close()
             with lock:
-                temperature = grovepi.UltrasonicRead(sensor,'1.1')
+                temperature = grovepi.ultrasonicRead(sensor,'1.1')
                 time.sleep(0.5)
                 if(temperature>37):
                     setText_norefresh("Temerature High, Entry Denied")
