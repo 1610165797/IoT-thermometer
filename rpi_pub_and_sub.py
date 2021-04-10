@@ -13,7 +13,7 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to server with result code "+str(rc))
 
     client.subscribe("hospital/stop")
-    client.message_callback_add("hospital/stop",entry_callback)
+    client.message_callback_add("hospital/stop",stop_callback)
 
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
