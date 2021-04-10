@@ -36,7 +36,7 @@ if __name__ == '__main__':
         outfile=open('detected.txt','r')
         txt=outfile.read()
 
-        if(txt=="detected"):
+        #if(txt=="detected"):
             outfile.close()
             open("filename", "w").close()
             with lock:
