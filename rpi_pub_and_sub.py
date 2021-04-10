@@ -9,17 +9,29 @@ sensor=0
 
 port=4
 
+detected=False
+
 def on_connect(client, userdata, flags, rc):
     print("Connected to server with result code "+str(rc))
 
     client.subscribe("hospital/stop")
     client.message_callback_add("hospital/stop",stop_callback)
 
+    client.subscribe("hospital/detected")
+    client.message_callback_add("hospital/detected",detected_callback)
+
+
+
 def on_message(client, userdata, msg):
     print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 def stop_callback(client, userdata, msg):
     print("stop_callback: " + msg.topic + " " + str(msg.payload, "utf-8"))
+
+def detected_callback(client, userdata, msg):
+    print("detected_callback: " + msg.topic + " " + str(msg.payload, "utf-8"))
+    global detected
+    detected =True
 
 if __name__ == '__main__':
     lock=threading.Lock()
@@ -32,20 +44,13 @@ if __name__ == '__main__':
 
     setRGB(0,255,0)
 
-
     while True:
-
-        outfile=open('detected.txt','r')
-        txt=outfile.read()
-
-        #if(txt=="detected"):
-        outfile.close()
-        open("filename", "w").close()
-        with lock:
-            temperature = grovepi.ultrasonicRead(port)
-            time.sleep(0.5)
-        if(temperature>37):
-            setText_norefresh("Temerature High, Entry Denied")
-        else:
-            setText_norefresh("Welcome")
-            client.publish("hospital/population","One Person Entered")
+        if(detected==True):
+            with lock:
+                temperature = grovepi.ultrasonicRead(port)
+                time.sleep(1)
+            if(temperature>37):
+                setText_norefresh("Temerature High, Entry Denied")
+            else:
+                setText_norefresh("Welcome")
+                client.publish("hospital/population","One Person Entered")

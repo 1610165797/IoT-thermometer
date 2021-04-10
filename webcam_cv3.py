@@ -4,6 +4,16 @@ import time
 import logging as log
 import datetime as dt
 from time import sleep
+import requests
+
+def on_connect(client, userdata, flags, rc):
+    print("Connected to server with result code "+str(rc))
+
+    client.subscribe("hospital/stop")
+    client.message_callback_add("hospital/stop",stop_callback)
+
+def on_message(client, userdata, msg):
+    print("on_message: " + msg.topic + " " + str(msg.payload, "utf-8"))
 
 
 cascPath = "haarcascade_frontalface_default.xml"
@@ -15,6 +25,12 @@ anterior = 0
 
 state=0
 while True:
+    client = mqtt.Client()
+    client.on_message = on_message
+    client.on_connect = on_connect
+    client.connect(host="eclipse.usc.edu", port=11000, keepalive=60)
+    client.loop_start()
+
     if not video_capture.isOpened():
         print('Unable to load camera.')
         sleep(5)
@@ -34,9 +50,7 @@ while True:
     if anterior != len(faces):
         anterior = len(faces)
         log.info("faces: "+str(len(faces))+" at "+str(dt.datetime.now()))
-        outfile=open('detected.txt','w')
-        outfile.write('detected')
-        outfile.close()
+        client.publish("hospital/detected","Face Detected")
     # Display the resulting frame
     cv2.imshow('Video', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
