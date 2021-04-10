@@ -46,6 +46,7 @@ if __name__ == '__main__':
 
     while True:
         if(detected==True):
+            detected==False
             with lock:
                 temperature = grovepi.ultrasonicRead(port)
                 time.sleep(1)
