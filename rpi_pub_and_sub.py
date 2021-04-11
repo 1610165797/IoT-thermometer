@@ -4,12 +4,29 @@ from grovepi import *
 import paho.mqtt.client as mqtt
 import time
 import threading
+import requests
+import json
 
 sensor=0
 
 port=4
 
 detected=True
+
+
+
+def vacc_init():
+    params={'country':'US','ab':'US','continent':'North America',}
+    response = requests.get('https://covid-api.mmediagroup.fr/v1/vaccines', params)
+    if response.status_code == 200:
+        data = response.json()
+        vacc_partial=json.dumps(data["United States"]["All"]["people_partially_vaccinated"])
+        print("US Vaccinated: "+vacc_partial)
+        return "US Vaccinated: "+vacc_partial
+    else:
+        print('error: got response code %d' % response.status_code)
+        print(response.text)
+        return None
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server with result code "+str(rc))
@@ -60,5 +77,5 @@ if __name__ == '__main__':
                 setText_norefresh("Entry Granted")
                 client.publish("hospital/population","One Person Entered")
         else:
-            setText_norefresh("Welcom")
+            vacc_init()
 
