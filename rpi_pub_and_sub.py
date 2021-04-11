@@ -21,11 +21,10 @@ def vacc_init():
     if response.status_code == 200:
         data = response.json()
         vacc_partial=json.dumps(data["United States"]["All"]["people_partially_vaccinated"])
-        print("US Vaccinated: "+vacc_partial)
+        setText_norefresh("US Vaccinated: "+vacc_partial)
         return "US Vaccinated: "+vacc_partial
     else:
-        print('error: got response code %d' % response.status_code)
-        print(response.text)
+        setText_norefresh('error: got response code %d' % response.status_code)
         return None
 
 def on_connect(client, userdata, flags, rc):
