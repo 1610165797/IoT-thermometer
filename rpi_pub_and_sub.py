@@ -27,6 +27,7 @@ def on_message(client, userdata, msg):
 
 def stop_callback(client, userdata, msg):
     print("stop_callback: " + msg.topic + " " + str(msg.payload, "utf-8"))
+    exit()
 
 def detected_callback(client, userdata, msg):
     print("detected_callback: " + msg.topic + " " + str(msg.payload, "utf-8"))
