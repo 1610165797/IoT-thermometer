@@ -49,7 +49,8 @@ while True:
         anterior = len(faces)
         log.info("faces: "+str(len(faces))+" at "+str(dt.datetime.now()))
         client.publish("hospital/detected","True")
-    client.publish("hospital/detected","False")
+    else:
+        client.publish("hospital/detected","False")
     # Display the resulting frame
     cv2.imshow('Video', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
