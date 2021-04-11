@@ -9,7 +9,7 @@ sensor=0
 
 port=4
 
-detected=False
+detected=True
 
 def on_connect(client, userdata, flags, rc):
     print("Connected to server with result code "+str(rc))
@@ -32,7 +32,11 @@ def stop_callback(client, userdata, msg):
 def detected_callback(client, userdata, msg):
     print("detected_callback: " + msg.topic + " " + str(msg.payload, "utf-8"))
     global detected
-    detected =True
+    if(str(msg.payload, "utf-8")=="True"):
+        detected =True
+    else:
+        detected =False
+
 
 if __name__ == '__main__':
     lock=threading.Lock()
@@ -47,7 +51,6 @@ if __name__ == '__main__':
     detected=False
     while True:
         if(detected==True):
-            detected==False
             with lock:
                 temperature = grovepi.ultrasonicRead(port)
                 time.sleep(0.5)
