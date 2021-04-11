@@ -44,13 +44,13 @@ if __name__ == '__main__':
     client.loop_start()
 
     setRGB(0,255,0)
-
+    detected=False
     while True:
         if(detected==True):
             detected==False
             with lock:
                 temperature = grovepi.ultrasonicRead(port)
-                time.sleep(1)
+                time.sleep(0.5)
             if(temperature>5):
                 setText_norefresh("Temerature High, Entry Denied")
             else:
